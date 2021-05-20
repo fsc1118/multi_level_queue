@@ -32,8 +32,13 @@ bool mlq_initialize (mlq_t* mlqueue, int size) {
 }
 
 void mlq_release (mlq_t* mlqueue) {
+    char* string;
+    while ((string = mlq_dequeue(mlqueue)) != NULL) {
+    	free(string);
+    }
     free(mlqueue->queues);
-	mlqueue = NULL;
+    free(mlqueue);
+    mlqueue = NULL;
 }
 
 bool mlq_enqueue (mlq_t* mlqueue, char* item, int queue_num) {
